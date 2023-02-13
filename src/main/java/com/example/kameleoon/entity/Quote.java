@@ -9,12 +9,9 @@ import java.util.Date;
 
 @Entity
 @Table(name = "quotes")
-@Setter
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-@EqualsAndHashCode
 public class Quote {
 
     @Id

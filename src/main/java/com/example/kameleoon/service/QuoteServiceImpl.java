@@ -5,7 +5,9 @@ import com.example.kameleoon.dto.*;
 import com.example.kameleoon.entity.Account;
 import com.example.kameleoon.entity.LastVotedQuotes;
 import com.example.kameleoon.entity.Quote;
+import com.example.kameleoon.entity.ScoreChart;
 import com.example.kameleoon.repository.AccountRepository;
+import com.example.kameleoon.repository.ScoreChartRepository;
 import com.example.kameleoon.repository.VotedQuoteRepository;
 import com.example.kameleoon.repository.QuoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +16,15 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 
 @Service
 public class QuoteServiceImpl implements QuoteService{
 
+    @Autowired
+    private ScoreChartRepository scoreChartRepository;
 
     @Autowired
     private AccountRepository accountRepository;
@@ -110,6 +116,7 @@ public class QuoteServiceImpl implements QuoteService{
         Quote quoteById = quoteRepository.getById(quote_id);
         quoteById.setScore(quoteById.getScore()+1);
         extractToLastVotedQuotes(quoteById);
+        saveVotesAndDateIntoScoreChart(quoteById);
 
     }
 
@@ -118,6 +125,8 @@ public class QuoteServiceImpl implements QuoteService{
         Quote quoteById = quoteRepository.getById(quote_id);
         quoteById.setScore(quoteById.getScore()-1);
         extractToLastVotedQuotes(quoteById);
+        saveVotesAndDateIntoScoreChart(quoteById);
+
 
     }
 
@@ -129,6 +138,25 @@ public class QuoteServiceImpl implements QuoteService{
         lastVotedQuotes.setDate(new Date());
         lastVotedQuotes.setAccount_id(quoteById.getAccount().getId());
         votedQuoteRepository.save(lastVotedQuotes);
+
     }
+
+
+    protected void saveVotesAndDateIntoScoreChart(Quote quote){
+        ScoreChart scoreChart = new ScoreChart();
+        scoreChart.setScore(quote.getScore());
+        scoreChart.setQuote_id(quote.getId());
+        scoreChart.setDate(new Date());
+        scoreChartRepository.save(scoreChart);
+
+    }
+
+    // DATA FOR GRAPH OF PARTICULAR QUOTE
+    public List<ScoreChart> getDataForGraphOfParticularQuote(int quote_id) {
+        List<ScoreChart> scoreChartList = scoreChartRepository.takeDataForScoreCharParticularQuote(quote_id);
+        System.out.println(scoreChartList);
+        return scoreChartList;
+    }
+
 
 }

@@ -8,12 +8,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "accounts")
-@Setter
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-@EqualsAndHashCode
 public class Account {
 
     @Id
