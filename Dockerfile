@@ -1,6 +1,8 @@
 FROM openjdk:18-jdk-alpine
-COPY target/Kameleoon.jar /kameleoon.jar
-CMD ["java","-jar","/kameleoon.jar"]
-
+ARG JAR_FILE=target/Kameleoon.jar
+WORKDIR /opt/app
+COPY ${JAR_FILE} kameleoon.jar
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","kameleoon.jar"]
 
 
