@@ -112,16 +112,17 @@ public class QuoteServiceImpl implements QuoteService{
     }
 
     @Override
-    public void addLikeToQuote(int quote_id, int account_id) {
+    public void addLikeToQuote(int quote_id) {
         Quote quoteById = quoteRepository.getById(quote_id);
         quoteById.setScore(quoteById.getScore()+1);
         extractToLastVotedQuotes(quoteById);
         saveVotesAndDateIntoScoreChart(quoteById);
 
+
     }
 
     @Override
-    public void addDislikeToQuote(int quote_id, int account_id) {
+    public void addDislikeToQuote(int quote_id) {
         Quote quoteById = quoteRepository.getById(quote_id);
         quoteById.setScore(quoteById.getScore()-1);
         extractToLastVotedQuotes(quoteById);
@@ -151,12 +152,25 @@ public class QuoteServiceImpl implements QuoteService{
 
     }
 
-    // DATA FOR GRAPH OF PARTICULAR QUOTE
+    // DATA FOR GRAPH OF PARTICULAR QUOTE TO LIST
     public List<ScoreChart> getDataForGraphOfParticularQuote(int quote_id) {
         List<ScoreChart> scoreChartList = scoreChartRepository.takeDataForScoreCharParticularQuote(quote_id);
         System.out.println(scoreChartList);
         return scoreChartList;
     }
+    // DATA FOR GRAPH OF PARTICULAR QUOTE TO TREEMAP
+    public TreeMap<Date, Integer> getDataForGraphOfParticularQuoteWithTreeMap(int quote_id) {
+        List<ScoreChart> scoreChartList = scoreChartRepository.takeDataForScoreCharParticularQuoteToTreeMap(quote_id);
+        TreeMap<Date,Integer> treeMap = new TreeMap<>();
+        scoreChartList
+                .forEach(scoreChart -> {
+                    treeMap.put(scoreChart.getDate(),scoreChart.getScore());
+                });
+        System.out.println(treeMap);
+        return treeMap;
+
+    }
+
 
 
 }

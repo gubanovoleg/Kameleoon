@@ -60,14 +60,14 @@ public class QuoteController {
 
     // PUT LIKE TO PARTICULAR QUOTE
     @PutMapping("/like")
-    public void  addLikeToQuote (@RequestParam int quote_id, int account_id){
-        quoteService.addLikeToQuote(quote_id, account_id);
+    public void  addLikeToQuote (@RequestParam int quote_id){
+        quoteService.addLikeToQuote(quote_id);
 
     }
     // PUT DISLIKE TO PARTICULAR QUOTE
     @PutMapping("/dislike")
-    public void addDislikeToQuote (@RequestParam int quote_id, int account_id){
-        quoteService.addDislikeToQuote(quote_id, account_id);
+    public void addDislikeToQuote (@RequestParam int quote_id){
+        quoteService.addDislikeToQuote(quote_id);
     }
 
 }

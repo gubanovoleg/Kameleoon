@@ -26,7 +26,7 @@ public interface QuoteService  {
 
     GetQuoteRequestDto getParticularQuote(int id);
 
-    void  addLikeToQuote(int quote_id, int account_id);
+    void  addLikeToQuote(int quote_id);
 
-    void addDislikeToQuote(int quote_id, int account_id);
+    void addDislikeToQuote(int quote_id);
 }

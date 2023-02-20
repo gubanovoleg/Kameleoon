@@ -34,6 +34,4 @@ public class Account {
     @OneToMany (mappedBy = "account", cascade = CascadeType.ALL)
     private List<Quote> quoteList;
 
-//    @OneToMany (mappedBy = "account", cascade = CascadeType.ALL)
-//    private List<LastVotedQuotes> lastVotedQuotesList;
 }
